@@ -1,0 +1,80 @@
+pipeline {
+    agent any
+    tools {
+        jdk 'jdk17'
+        nodejs 'node16'
+    }
+    environment {
+        SCANNER_HOME = tool 'sonar-scanner'
+    }
+    stages {
+        stage('Clean Workspace') {
+            steps {
+                echo 'Cleaning workspace...'
+                cleanWs()
+            }
+        }
+        stage('Checkout from Git') {
+            steps {
+                echo 'Checking out code from Git...'
+                git branch: 'main', url: 'https://github.com/mubinfshaikh/cartoonapp.git'
+            }
+        }
+        stage("Sonarqube Analysis") {
+            steps {
+                echo 'Running SonarQube analysis...'
+                withSonarQubeEnv('sonar-server') {
+                    sh '''$SCANNER_HOME/bin/sonar-scanner \
+                        -Dsonar.projectName=Cartoon-CICD \
+                        -Dsonar.projectKey=Cartoon-CICD'''
+                }
+            }
+        }
+        stage("Quality Gate Checks") {
+            steps {
+                echo 'Waiting for quality gate status...'
+                script {
+                    waitForQualityGate abortPipeline: false, credentialsId: 'sonarqube-token'
+                }
+            }
+        }
+        stage('Install npm Dependencies') {
+            steps {
+                echo 'Installing npm dependencies...'
+                sh "npm install"
+            }
+        }
+        stage('OWASP FS SCAN') {
+            steps {
+                echo 'Running OWASP dependency check...'
+                dependencyCheck additionalArguments: '--scan ./ --disableYarnAudit --disableNodeAudit', odcInstallation: 'DP-Check'
+                dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+            }
+        }
+        stage('TRIVY FS SCAN') {
+            steps {
+                echo 'Running Trivy filesystem scan...'
+                sh "trivy fs . > trivyfs.txt"
+            }
+        }
+        stage("Docker Build & Push") {
+            steps {
+                echo 'Building and pushing Docker image...'
+                script {
+                    withDockerRegistry(credentialsId: 'dockerhub', toolName: 'docker') {
+                        sh "docker system prune --force"
+                        sh "docker build -t cartoon-app ."
+                        sh "docker tag cartoon-app mubinskh/cartoon-app:latest"
+                        sh "docker push mubinskh/cartoon-app:latest"
+                    }
+                }
+            }
+        }
+        stage("TRIVY") {
+            steps {
+                echo 'Running Trivy image scan...'
+                sh "trivy image mubinskh/cartoon-app:latest > trivyimage.txt"
+            }
+        }
+    }
+}
