@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cartoon-app
+  labels:
+    app: cartoon-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: cartoon-app
+  template:
+    metadata:
+      labels:
+        app: cartoon-app
+    spec:
+      terminationGracePeriodSeconds: 30
+      containers:
+      - name: cartoon-app
+        image: mubinskh/cartoon-app:latest
+        imagePullPolicy: "Always"
+        ports:
+        - containerPort: 3000
