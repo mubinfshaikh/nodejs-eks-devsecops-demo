@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cartoon-app
+spec:
+  destination:
+    server: https://kubernetes.default.svc # Replace with your Kubernetes API server
+    namespace: cartoon-app # Replace with your desired namespace
+  project: default # Replace with your project name in ArgoCD
+  source:
+    repoURL: https://github.com/mubinfshaikh/cartoonapp.git # Replace with your Git repository URL
+    path: kubernetes # Replace with the path to your application manifests within the repo
+    targetRevision: HEAD # Replace with the desired Git revision (e.g., branch, tag, commit hash)
+  syncPolicy:
+    automated:
+      prune: true # Enable or disable pruning of resources not in the Git repository
+      selfHeal: true # Enable or disable auto-reconciliation to ensure desired state
+    syncOptions:
+      - Validate=false # Additional sync options if needed
