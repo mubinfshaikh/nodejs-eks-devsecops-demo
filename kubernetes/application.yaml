@@ -15,5 +15,6 @@ spec:
     automated:
       prune: true # Enable or disable pruning of resources not in the Git repository
       selfHeal: true # Enable or disable auto-reconciliation to ensure desired state
+      allowEmpty: false # Allows deleting all application resources during automatic syncing ( false by default ).
     syncOptions:
       - Validate=false # Additional sync options if needed
