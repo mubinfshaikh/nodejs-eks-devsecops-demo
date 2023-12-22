@@ -4,6 +4,7 @@ metadata:
   name: cartoon-app
   labels:
     app: cartoon-app
+    version: 1.0
 spec:
   replicas: 3
   selector:
