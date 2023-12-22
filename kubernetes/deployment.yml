@@ -5,7 +5,7 @@ metadata:
   labels:
     app: cartoon-app
 spec:
-  replicas: 2
+  replicas: 0
   selector:
     matchLabels:
       app: cartoon-app
