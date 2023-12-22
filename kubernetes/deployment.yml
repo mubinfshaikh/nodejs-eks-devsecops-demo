@@ -17,7 +17,7 @@ spec:
       terminationGracePeriodSeconds: 30
       containers:
       - name: cartoon-app
-        image: mubinskh/cartoon-app:latest
+        image: mubinskh/cartoon-app:1.0
         imagePullPolicy: "Always"
         ports:
         - containerPort: 3000
