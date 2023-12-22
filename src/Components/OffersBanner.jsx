@@ -11,6 +11,7 @@ function OffersBanner() {
         <div className=' d-flex justify-content-center align-items-center mt-5 flex-column'>
             <div className='w-75 '>
                 <h4 className='fw-bolder'>hello welcome to this cartoon app what's up?</h4>
+                <h4 className='fw-bolder'>hello welcome to this cartoon app what's up?</h4>
                 <div id='banner-img' className='d-flex align-items-center ' style={{overflowY:"scroll",gap:"20px"}}>
                     <img width={'450px'} src={banner2} alt="Cartoon" />
                     <img width={'450px'} src={banner1} alt="Cartoon" />
