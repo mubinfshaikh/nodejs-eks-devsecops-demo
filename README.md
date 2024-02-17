@@ -1,4 +1,4 @@
-# Cartoon-App
+# DevSecOps Project for Deploying NodeJS application on EKS
 Project Description:
 
 This GitHub project showcases a comprehensive DevOps pipeline for deploying a Node.js application on Kubernetes using a variety of powerful tools. The project leverages Terraform for provisioning an EKS cluster, ensuring a scalable and reliable infrastructure. Ansible is utilized to automate the installation of essential packages such as Helm, Jenkins, Trivy, and kubectl, streamlining the setup process.
