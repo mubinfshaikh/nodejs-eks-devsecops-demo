@@ -19,3 +19,10 @@ terraform plan -var "aws_access_key=add_aws_access_key_here" -var "aws_secret_ke
 terraform apply -var "aws_access_key=add_aws_access_key_here" -var "aws_secret_key=add_aws_secret_key_here" -var "aws_region=ap-south-1"  -var "keyPath=.keys/add_private_key_here"
 
 terraform destroy -var "aws_access_key=add_aws_access_key_here" -var "aws_secret_key=add_aws_secret_key_here" -var "aws_region=ap-south-1" -var "keyPath=.keys/add_private_key_here"
+
+----------------------------------------------------------------------------------------------------------------------
+##### To get the top pods or nodes which are consuming a memory
+kubectl top pods or nodes
+
+you will need to run kubectl apply -f metric-server.yaml
+which is present in the project
